@@ -1,7 +1,7 @@
 d = {}
 last = 'start'
 try:
-    with open("enwik8") as infile:
+    with open("small-data") as infile:
         for line in infile:
             for i in line:
                 if i in d.keys():
