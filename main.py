@@ -1,50 +1,106 @@
-d = {}
-last = 'start'
-try:
-    with open("small-data") as infile:
-        for line in infile:
-            for i in line:
-                if i in d.keys():
-                    #print(i, 'is in')
-                    #d[i] = []
-                    print(last, i)
-                    if last in d[i].keys():
-                        d[i][last] = d[i][last] + 1
-                    else:
-                        d[i][last] = {i:1}
-                else:
-                    d[last] = {i:1}
-                    
-                print(d)
+class Node():
 
-                last = i   
-except Exception as e:
-    print(e)
-    print(d)
-    print(len(d))
+    # My character
+    char = None
+    nodes = []
+
+    def __init__(self, charr):
+        self.char = charr
+        return None
+
+    def get_list(self):
+        return None
+
+    def link(self, node):
+        pos = None
+        if node in self.nodes:
+            pos = self.nodes.index(node)
+        else:
+            self.nodes.append(node)
+            pos = self.nodes.index(node)
+
+        return pos
+
+class Node_list():
+
+    # Holds dictionary for char to node
+    list_of_nodes = {}
+    
+    current_node  = None
+    previous_node = None
+
+    def __init__(self):
+        return None
+
+    def exists(self, charr):
+        if charr in self.list_of_nodes:
+            return True
+        else:
+            return False
+
+    def seed(self, charr):
+        self.create_node(charr)
+        self.current_node = self.list_of_nodes[charr]
+        return None
+
+    def create_node(self, charr):
+        if self.exists(charr):
+            raise ValueError('Attempting to create node that exists :(')
+        else:
+            self.list_of_nodes[charr] = Node(charr)
+
+    def link(self, charr):
+        self.previous_node = self.current_node
+        self.current_node = self.list_of_nodes[charr]
+
+        pos = self.previous_node.link(self.current_node)
+
+        return pos
+
+    # Used to add charrs to the structure
+    def add(self, charr):
+        ## Handle New chars
+        # Check if char has been seen before
+        if not self.exists(charr):
+            self.create_node(charr)
+        else:
+            # Do nothing atm
+            hi = 3
+
+        ## Do mapping logic A --> B 
+        pos = self.link(charr)
+        
+        print(charr)
+        return pos
+
+    # Will eventually be used to dump the data needed to reconstruct the original text
+    def dump():
+        return None
+
+    # Will eventually be used to construct the data to text
+    def pull(p_list):
+        for i in p_list:
+        return None
 
 
-'''
-        print(line)
-        words = line.split()
-        for i in words:
-            n = ''.join(x for x in i if x.isalpha())
-            if n in d.keys():
-                d[n] += 1
-            else:
-                d[n] = 0   
-                      
-                
-print(d)
-print(d['the'])
-print(d['from'])
+def main():
+    myBrain = Node_list()
+    myBrain.seed('start')
 
-count = 0
-for i in d:
-    if d[i] > 4:
-        count += 1
+    p_list = []
+    
+    try:
+        # Work with data
+        with open("small-data") as infile:
+            for line in infile:
+                for i in line:
+                    p = myBrain.add(i)
+                    p_list.append(p)
+        # Test reconstruction
+        myBrain.pull(p_list)
+    except Exception as e:
+        print(e)
 
-print(count)
+if __name__== "__main__":
+  main()
 
-print(len(d))
-'''
