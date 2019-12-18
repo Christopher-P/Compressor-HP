@@ -8,6 +8,9 @@ class Node():
         self.char = charr
         return None
 
+    def get_element(self, pos):
+        return self.nodes[pos]
+
     def get_list(self):
         return None
 
@@ -70,16 +73,37 @@ class Node_list():
         ## Do mapping logic A --> B 
         pos = self.link(charr)
         
-        print(charr)
+        #print(charr)
         return pos
 
     # Will eventually be used to dump the data needed to reconstruct the original text
-    def dump():
-        return None
+    def dump(self, p_list):
+        arr = []
+        self.current_node  = None
+        self.previous_node = None
+
+        self.current_node = self.list_of_nodes['start']
+
+        for i in p_list:
+            node = self.current_node.get_element(i)
+            arr.append(node.comp())
+            print(node.char)
+            self.current_node = node
+
+        return arr
 
     # Will eventually be used to construct the data to text
-    def pull(p_list):
+    def pull(self, p_list):
+        self.current_node  = None
+        self.previous_node = None
+
+        self.current_node = self.list_of_nodes['start']
+
         for i in p_list:
+            node = self.current_node.get_element(i)
+            print(node.char)
+            self.current_node = node
+
         return None
 
 
@@ -96,11 +120,20 @@ def main():
                 for i in line:
                     p = myBrain.add(i)
                     p_list.append(p)
+
+        # Output bitstream array
+        arr = myBrain.dump(p_list)
+
         # Test reconstruction
         myBrain.pull(p_list)
+
     except Exception as e:
         print(e)
 
 if __name__== "__main__":
   main()
+
+
+
+
 
